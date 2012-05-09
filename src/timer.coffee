@@ -9,8 +9,12 @@ class Timer
     @callbacks = @callbacks.filter((fn) -> fn != callback)
 
   start: ->
-    composed = _.compose(@callbacks...)
-    @id = setTimeout (-> composed.call()), @time
+    callbacks = @callbacks
+    self = @
+    firedAt = new Date
+    @id = setTimeout ->
+      cb(self: self, realErapsed: (new Date) - firedAt) for cb in callbacks
+    , @time
     return
 
   stop: ->
