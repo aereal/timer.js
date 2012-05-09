@@ -13,6 +13,12 @@ Timer = (function() {
     return this.callbacks.push(callback);
   };
 
+  Timer.prototype.removeListener = function(callback) {
+    return this.callbacks = this.callbacks.filter(function(fn) {
+      return fn !== callback;
+    });
+  };
+
   Timer.prototype.start = function() {
     var composed;
     composed = _.compose.apply(_, this.callbacks);
